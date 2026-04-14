@@ -4,24 +4,35 @@ app_publisher = "MithTech"
 app_description = "Custom modifications for Justsigns."
 app_email = "manoj@mith.tech"
 app_license = "mit"
+# Apps
+# ------------------
+
 # required_apps = []
+
+# Each item in the list will be shown as an app in the apps page
+# add_to_apps_screen = [
+# 	{
+# 		"name": "justsign_custom",
+# 		"logo": "/assets/justsign_custom/logo.png",
+# 		"title": "Justsign Custom Dev",
+# 		"route": "/justsign_custom",
+# 		"has_permission": "justsign_custom.api.permission.has_app_permission"
+# 	}
+# ]
 
 # Includes in <head>
 # ------------------
 
 # include js, css files in header of desk.html
-# app_include_css = "/assets/justsigns_custom/css/justsigns_custom.css"
-# app_include_js = "/assets/justsigns_custom/js/justsigns_custom.js"
-app_include_js = [
-    "/assets/justsigns_custom/js/3mteam.js"
-]
+# app_include_css = "/assets/justsign_custom/css/justsign_custom.css"
+# app_include_js = "/assets/justsign_custom/js/justsign_custom.js"
 
 # include js, css files in header of web template
-# web_include_css = "/assets/justsigns_custom/css/justsigns_custom.css"
-# web_include_js = "/assets/justsigns_custom/js/justsigns_custom.js"
-
+# web_include_css = "/assets/justsign_custom/css/justsign_custom.css"
+# web_include_js = "/assets/justsign_custom/js/justsign_custom.js"
+# app_include_css = "/assets/justsign_custom/css/custom_login.css"
 # include custom scss in every website theme (without file extension ".scss")
-# website_theme_scss = "justsigns_custom/public/scss/website"
+# website_theme_scss = "justsign_custom/public/scss/website"
 
 # include js, css files in header of web form
 # webform_include_js = {"doctype": "public/js/doctype.js"}
@@ -29,6 +40,20 @@ app_include_js = [
 
 # include js in page
 # page_js = {"page" : "public/js/file.js"}
+
+doctype_js = {"Lead":"public/js/custom_lead.js",
+                "Prospect":"public/js/custom_prospect.js",
+                "Opportunity":"public/js/custom_opportunity.js",
+                "Customer":"public/js/custom_customer.js",
+                "Delivery Note":"public/js/custom_delivery.js",
+                "Sales Order":"public/js/custom_salesorder.js",
+                "Sales Invoice":"public/js/custom_salesinvoice.js",
+                "Quotation":"public/js/custom_quotation.js",
+                "Job Card":"public/js/custom_jobcard.js",
+                # "Sales Order":"public/js/sales_order.js",
+                # "Prospect": "public/js/prospect.js",
+            }
+after_migrate = ["justsign_custom.custom_pyfile.custom_python.patch_make_packing_list"]
 
 # include js in doctype views
 # doctype_js = {"doctype" : "public/js/doctype.js"}
@@ -39,7 +64,7 @@ app_include_js = [
 # Svg Icons
 # ------------------
 # include app icons in desk
-# app_include_icons = "justsigns_custom/public/icons.svg"
+# app_include_icons = "justsign_custom/public/icons.svg"
 
 # Home Pages
 # ----------
@@ -60,46 +85,52 @@ app_include_js = [
 
 # Jinja
 # ----------
-
 # add methods and filters to jinja environment
 # jinja = {
-# 	"methods": "justsigns_custom.utils.jinja_methods",
-# 	"filters": "justsigns_custom.utils.jinja_filters"
+# 	"methods": "justsign_custom.utils.jinja_methods",
+# 	"filters": "justsign_custom.utils.jinja_filters"
 # }
+jinja = {
+    "methods" : [
+      "justsign_custom.justsign_custom_dev.utils.sales_order_print.get_invoice_item_and_tax_details",
+      "justsign_custom.justsign_custom_dev.utils.sales_invoice_print.get_inv_item_and_tax_details",
+      "frappe.utils.data.money_in_words"
+    ]
+}
 
 # Installation
 # ------------
 
-# before_install = "justsigns_custom.install.before_install"
-# after_install = "justsigns_custom.install.after_install"
+# before_install = "justsign_custom.install.before_install"
+# after_install = "justsign_custom.install.after_install"
 
 # Uninstallation
 # ------------
 
-# before_uninstall = "justsigns_custom.uninstall.before_uninstall"
-# after_uninstall = "justsigns_custom.uninstall.after_uninstall"
+# before_uninstall = "justsign_custom.uninstall.before_uninstall"
+# after_uninstall = "justsign_custom.uninstall.after_uninstall"
 
 # Integration Setup
 # ------------------
 # To set up dependencies/integrations with other apps
 # Name of the app being installed is passed as an argument
 
-# before_app_install = "justsigns_custom.utils.before_app_install"
-# after_app_install = "justsigns_custom.utils.after_app_install"
+# before_app_install = "justsign_custom.utils.before_app_install"
+# after_app_install = "justsign_custom.utils.after_app_install"
 
 # Integration Cleanup
 # -------------------
 # To clean up dependencies/integrations with other apps
 # Name of the app being uninstalled is passed as an argument
 
-# before_app_uninstall = "justsigns_custom.utils.before_app_uninstall"
-# after_app_uninstall = "justsigns_custom.utils.after_app_uninstall"
+# before_app_uninstall = "justsign_custom.utils.before_app_uninstall"
+# after_app_uninstall = "justsign_custom.utils.after_app_uninstall"
 
 # Desk Notifications
 # ------------------
 # See frappe.core.notifications.get_notification_config
 
-# notification_config = "justsigns_custom.notifications.get_notification_config"
+# notification_config = "justsign_custom.notifications.get_notification_config"
 
 # Permissions
 # -----------
@@ -118,13 +149,57 @@ app_include_js = [
 # Override standard doctype classes
 
 # override_doctype_class = {
-# 	"ToDo": "custom_app.overrides.CustomToDo"
+# 	"Payment Entry": "justsign_custom.overrides.payment_entry.CustomPaymentEntry"
 # }
-
 # Document Events
 # ---------------
 # Hook on document methods and events
+doc_events = {
+    "Payment Entry": {
+        "before_validate": "justsign_custom.overrides.payment_entry.disable_duplicate_validation"
+    },
+    "Prospect": {
+        "before_save": "justsign_custom.custom_pyfile.custom_python.before_save",
+        "on_trash": "justsign_custom.custom_pyfile.custom_python.on_trash"
+    },
+     "Customer": { 
+        "before_save": "justsign_custom.custom_pyfile.custom_python.cust_set_status",
+        "on_trash": "justsign_custom.custom_pyfile.custom_python.cust_del_set_status"
+    },
+    "Sales Invoice": {
+        "on_submit": "justsign_custom.custom_pyfile.custom_python.salesinvocie_after_save",
+        "on_submit": "justsign_custom.public.py.sales_invoice.send_invoice_email",
+        # "on_submit": "justsign_custom.public.py.sales_invoice.create_and_attach_pdf",
+        # "on_update_after_submit": "justsign_custom.public.py.sales_invoice.create_and_attach_pdf"
 
+    },
+    "Delivery Note": {  
+        "on_submit": "justsign_custom.custom_pyfile.custom_python.delivery_note_submit",
+    }, 
+    "Lead": {
+        "after_insert": "justsign_custom.public.py.custom_lead.assign_sales_partner",
+        "on_update": "justsign_custom.public.py.custom_lead.assign_sales_partner"
+    },
+    "Sales Partner Assigned Lead": {
+        "after_insert": "justsign_custom.public.py.custom_sales_partner_assign_lead.create_opportunity"
+    },
+    "Opportunity":{
+        "before_save": "justsign_custom.public.py.opportunity.set_quotation_lost" 
+        # "after_save": "justsign_custom.public.py.opportunity.set_quotation_lost" 
+    },
+    "ToDo": {
+        "after_insert": "justsign_custom.public.py.todo_webhook.update_due_checkbox",
+        "on_update": "justsign_custom.public.py.todo_webhook.update_due_checkbox"
+    },
+     "Event": {
+        "before_insert": "justsign_custom.public.py.event.set_event_public"
+    }
+   
+    # "Sales Order": {
+    #       "on_submit": "justsign_custom.public.py.sales_order.create_and_attach_pdf"
+    #   #   "on_submit": "justsign_custom.public.py.sales_order.create_job_cards",
+    # },
+}
 # doc_events = {
 # 	"*": {
 # 		"on_update": "method",
@@ -136,41 +211,54 @@ app_include_js = [
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
+scheduler_events = {
 # 	"all": [
-# 		"justsigns_custom.tasks.all"
+# 		"justsign_custom.tasks.all"
 # 	],
 # 	"daily": [
-# 		"justsigns_custom.tasks.daily"
+# 		"justsign_custom.tasks.daily"
 # 	],
-# 	"hourly": [
-# 		"justsigns_custom.tasks.hourly"
-# 	],
+	"hourly": [
+		"justsign_custom.justsign_custom_dev.doctype.plan_visit.plan_visit.recurring_plan"
+	],
+    "daily": [
+        "justsign_custom.public.py.notification.send_todo_summary",
+        "justsign_custom.public.py.notification.send_due_date_reminder",
+        "justsign_custom.public.py.notification.send_overdue_todos",
+        "justsign_custom.public.py.todo_webhook.check_due_todos",
+    ],
+    "cron": { 
+        "59 23 * * *": [
+            "justsign_custom.public.py.notification.send_camping_wise_lead_report_html",
+            "justsign_custom.public.py.notification.brand_costcenter_sales_mail"
+        ]
+    }
+
 # 	"weekly": [
-# 		"justsigns_custom.tasks.weekly"
+# 		"justsign_custom.tasks.weekly"
 # 	],
 # 	"monthly": [
-# 		"justsigns_custom.tasks.monthly"
+# 		"justsign_custom.tasks.monthly"
 # 	],
-# }
+}
 
 # Testing
 # -------
 
-# before_tests = "justsigns_custom.install.before_tests"
+# before_tests = "justsign_custom.install.before_tests"
 
 # Overriding Methods
 # ------------------------------
 #
 # override_whitelisted_methods = {
-# 	"frappe.desk.doctype.event.event.get_events": "justsigns_custom.event.get_events"
+# 	"frappe.desk.doctype.event.event.get_events": "justsign_custom.event.get_events"
 # }
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
 # along with any modifications made in other Frappe apps
 # override_doctype_dashboards = {
-# 	"Task": "justsigns_custom.task.get_dashboard_data"
+# 	"Task": "justsign_custom.task.get_dashboard_data"
 # }
 
 # exempt linked doctypes from being automatically cancelled
@@ -181,16 +269,17 @@ app_include_js = [
 # -----------------------------------------------------------
 
 # ignore_links_on_delete = ["Communication", "ToDo"]
+ignore_links_on_delete = ["Job Cards"]
 
 # Request Events
 # ----------------
-# before_request = ["justsigns_custom.utils.before_request"]
-# after_request = ["justsigns_custom.utils.after_request"]
+# before_request = ["justsign_custom.utils.before_request"]
+# after_request = ["justsign_custom.utils.after_request"]
 
 # Job Events
 # ----------
-# before_job = ["justsigns_custom.utils.before_job"]
-# after_job = ["justsigns_custom.utils.after_job"]
+# before_job = ["justsign_custom.utils.before_job"]
+# after_job = ["justsign_custom.utils.after_job"]
 
 # User Data Protection
 # --------------------
@@ -220,7 +309,7 @@ app_include_js = [
 # --------------------------------
 
 # auth_hooks = [
-# 	"justsigns_custom.auth.validate"
+# 	"justsign_custom.auth.validate"
 # ]
 
 # Automatically update python controller files with type annotations for this app.
@@ -229,4 +318,3 @@ app_include_js = [
 # default_log_clearing_doctypes = {
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
-
